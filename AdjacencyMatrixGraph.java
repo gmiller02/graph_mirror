@@ -61,6 +61,8 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     public AdjacencyMatrixGraph(boolean directed) {
         _adjMatrix = this.makeEmptyEdgeArray();
+        _directed = directed;
+
         // TODO: fill in the rest here!
     }
 
@@ -77,7 +79,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public Iterator<CS16Vertex<V>> vertices() {
-        return null;
+        return _vertices.iterator();
     }
 
     /**
@@ -94,7 +96,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public Iterator<CS16Edge<V>> edges() {
-        return null;
+        return _edges.iterator();
     }
 
     /**
@@ -351,6 +353,13 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public void toggleDirected() {
+        if (_directed == true){
+            _directed = false;
+        }
+        else{
+            _directed = true;
+        }
+
     }
 
     /**
@@ -365,6 +374,9 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public void clear() {
+        _adjMatrix = this.makeEmptyEdgeArray();
+        _vertices.clear();
+        _edges.clear();
     }
 
     /**
