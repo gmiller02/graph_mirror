@@ -149,6 +149,9 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
     @Override
     public CS16Edge<V> insertEdge(CS16Vertex<V> v1, CS16Vertex<V> v2, Integer edgeElement)
             throws InvalidVertexException {
+        if (v1 == null || v2 == null) {
+            throw new InvalidVertexException("vertex is null");
+        }
         return null;
     }
 
@@ -169,6 +172,9 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public V removeVertex(CS16Vertex<V> vert) throws InvalidVertexException {
+        if (vert == null) {
+            throw new InvalidVertexException("vertex is null");
+        }
         return null;
     }
 
@@ -189,6 +195,10 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public Integer removeEdge(CS16Edge<V> edge) throws InvalidEdgeException {
+
+        if (edge == null) {
+            throw new InvalidEdgeException("edge is null");
+        }
         return null;
     }
 
@@ -219,6 +229,11 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
     @Override
     public CS16Edge<V> connectingEdge(CS16Vertex<V> v1, CS16Vertex<V> v2)
             throws InvalidVertexException, NoSuchEdgeException {
+
+        if (v1 == null || v2 == null) {
+            throw new InvalidVertexException("vertex is null");
+        }
+
         return null;
     }
 
@@ -237,6 +252,9 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public Iterator<CS16Edge<V>> incomingEdges(CS16Vertex<V> vert) throws InvalidVertexException {
+        if (vert == null) {
+            throw new InvalidVertexException("vertex is null");
+        }
         return null;
     }
     
@@ -254,6 +272,10 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public Iterator<CS16Edge<V>> outgoingEdges(CS16Vertex vert) throws InvalidVertexException {
+
+        if (vert == null) {
+            throw new InvalidVertexException("vertex is null");
+        }
 	   return null;
     }
 
@@ -322,6 +344,9 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public List<CS16Vertex<V>> endVertices(CS16Edge<V> e) throws InvalidEdgeException {
+        if (e == null) {
+            throw new InvalidEdgeException("edge is null");
+        }
         return null;
     }
 
@@ -345,6 +370,9 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public boolean areAdjacent(CS16Vertex<V> v1, CS16Vertex<V> v2) throws InvalidVertexException {
+        if (v1 == null || v2 == null) {
+            throw new InvalidVertexException("vertex is null");
+        }
         return false;
     }
 
