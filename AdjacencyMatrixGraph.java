@@ -62,6 +62,8 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
     public AdjacencyMatrixGraph(boolean directed) {
         _adjMatrix = this.makeEmptyEdgeArray();
         _directed = directed;
+        _vertices = new HashSet<>();
+        _edges = new HashSet<>();
 
         // TODO: fill in the rest here!
     }
@@ -120,7 +122,13 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public CS16Vertex<V> insertVertex(V vertElement) {
-        return null;
+        int rand = (int) (Math.random() * MAX_VERTICES);
+        GraphVertex<V> vertex = new GraphVertex<>(vertElement);
+        if (this.getNumVertices() <= MAX_VERTICES){
+            _vertices.add(vertex);
+            vertex.setVertexNumber(rand);
+        }
+        return vertex;
     }
 
     /**
@@ -152,7 +160,21 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         if (v1 == null || v2 == null) {
             throw new InvalidVertexException("vertex is null");
         }
-        return null;
+        else {
+            GraphEdge<V> e = new GraphEdge<V>(edgeElement, v1, v2);
+            _edges.add(e);
+            _adjMatrix[v1.getVertexNumber()][v2.getVertexNumber()] = e;
+            if(_directed = false) {
+                e.setVertexOne(v2);
+                e.setVertexTwo(v1);
+            }
+            else{
+                int v2Num = v2.getVertexNumber();
+                int v1Num = v1.getVertexNumber();
+                _adjMatrix[v2Num][v1Num] = e;
+            }
+            return e;
+        }
     }
 
     /**
@@ -199,7 +221,16 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         if (edge == null) {
             throw new InvalidEdgeException("edge is null");
         }
-        return null;
+        else {
+            _edges.remove(edge);
+            int edgev1 = edge.getVertexOne().getVertexNumber();
+            int edgev2 = edge.getVertexTwo().getVertexNumber();
+            _adjMatrix[edgev1][edgev2] = null;
+            if(_directed = false) {
+                _adjMatrix[edgev2][edgev1] = null;
+            }
+        }
+        return edge.element();
     }
 
     /**
