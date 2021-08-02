@@ -2,12 +2,7 @@ package graph;
 
 import static support.graph.Constants.MAX_VERTICES;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 import support.graph.CS16Edge;
 import support.graph.CS16Vertex;
@@ -264,8 +259,18 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         if (v1 == null || v2 == null) {
             throw new InvalidVertexException("vertex is null");
         }
-
-        return null;
+        else {
+            CS16Edge<V> connect;
+            int num1 = v1.getVertexNumber();
+            int num2 = v2.getVertexNumber();
+            if(this.areAdjacent(v1, v2)){
+                connect = _adjMatrix[num1][num2];
+            }
+            else{
+                throw new NoSuchEdgeException("no edge connecting verticies");
+            }
+            return connect;
+        }
     }
 
     /**
@@ -378,7 +383,14 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         if (e == null) {
             throw new InvalidEdgeException("edge is null");
         }
-        return null;
+        else{
+            ArrayList<CS16Vertex<V>> list = new ArrayList<>();
+            list.add(e.getVertexOne());
+            list.add(e.getVertexTwo());
+
+            return list;
+        }
+
     }
 
     /**
