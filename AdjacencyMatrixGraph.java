@@ -45,6 +45,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
     private int _numVertices;
     // boolean that keeps track of directedness of graph
     private boolean _directed;
+    private Deque<V> _deque;
 
     /**
      * Constructor for your Graph, where among other things, you will most
@@ -192,6 +193,20 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         if (vert == null) {
             throw new InvalidVertexException("vertex is null");
         }
+        else{
+            _vertices.remove(vert);
+            _deque.addFirst(vert.getVertexNumber());
+            _numVertices++;
+            Iterator<CS16Edge<V>> incoming = this.incomingEdges(vert);
+            while (incoming.hasNext()){
+                _edges.remove(incoming.next());
+            }
+            Iterator<CS16Edge<V>> outgoing = this.outgoingEdges(vert);
+            while(outgoing.hasNext()){
+                _edges.remove(outgoing.next());
+            }
+            return vert.element();
+        }
         return null;
     }
 
@@ -291,7 +306,16 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         if (vert == null) {
             throw new InvalidVertexException("vertex is null");
         }
-        return null;
+        else{
+            NodeSequence<CS16Edge<V>> inList = new NodeSequence<>();
+            int num = vert.getVertexNumber();
+            for(int i = 0; i < _adjMatrix.length; i++){
+                if(_adjMatrix[i][num] != null){
+                    inList.addFirst(_adjMatrix[i][num]);
+                }
+            }
+            return inList.iterator();
+        }
     }
     
     /**
@@ -308,11 +332,19 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public Iterator<CS16Edge<V>> outgoingEdges(CS16Vertex vert) throws InvalidVertexException {
-
         if (vert == null) {
-            throw new InvalidVertexException("vertex is null");
+            throw new InvalidVertexException("vertex null");
         }
-	   return null;
+        else{
+            NodeSequence<CS16Edge<V>> outList = new NodeSequence<>();
+            int num = vert.getVertexNumber();
+            for(int i = 0; i < _adjMatrix.length; i++){
+                if(_adjMatrix[num][i] != null){
+                    outList.addFirst(_adjMatrix[num][i]);
+                }
+            }
+            return outList.iterator();
+        }
     }
 
     /**
@@ -329,7 +361,19 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public int numOutgoingEdges(CS16Vertex<V> vert) throws InvalidVertexException, DirectionException {
-        return 0;
+        if(vert == null){
+            throw new InvalidVertexException("vertex is not valid");
+        }
+        if(_directed = false){
+            throw new DirectionException("graph is undirected");
+        }
+        int size = 0;
+        Iterator<CS16Edge<V>> edges = this.incomingEdges(vert);
+        while(edges.hasNext()){
+            edges.next();
+            size++;
+        }
+        return size;
     }
 
     /**
@@ -358,7 +402,24 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
     @Override
     public CS16Vertex<V> opposite(CS16Vertex<V> vert, CS16Edge<V> edge)
             throws InvalidVertexException, InvalidEdgeException, NoSuchVertexException {
-        return null;
+        System.out.print(vert);
+        if (edge.getVertexOne() == vert){
+            return edge.getVertexTwo();
+        }
+        else if (edge.getVertexTwo() == vert){
+            return edge.getVertexOne();
+        }
+        else if (edge == null) {
+            throw new InvalidEdgeException("edge is not valid");
+        }
+        else if (vert== null){
+            throw new InvalidVertexException("vertex is not valid");
+        }
+        else{
+            throw new NoSuchVertexException("Edge is not incident on v");
+        }
+
+
     }
 
     /**
@@ -416,7 +477,24 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         if (v1 == null || v2 == null) {
             throw new InvalidVertexException("vertex is null");
         }
-        return false;
+        else{
+            if (_directed = true) {
+                if (_adjMatrix[v1.getVertexNumber()][v2.getVertexNumber()] == null){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+            else{
+                if (_adjMatrix[v1.getVertexNumber()][v2.getVertexNumber()] == null && _adjMatrix[v2.getVertexNumber()][v1.getVertexNumber()] == null){
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
     }
 
     /**
@@ -455,8 +533,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
 	public int getNumVertices() {
-		//TODO: Edit this
-		return 0;
+		return _numVertices;
 	}
 
     // Do not change this method!
