@@ -4,6 +4,7 @@ import static support.graph.Constants.MAX_VERTICES;
 
 import java.util.*;
 
+import net.datastructures.NodeDeque;
 import support.graph.CS16Edge;
 import support.graph.CS16Vertex;
 import support.graph.Graph;
@@ -45,7 +46,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
     private int _numVertices;
     // boolean that keeps track of directedness of graph
     private boolean _directed;
-    private Deque<V> _deque;
+    private NodeDeque<Integer> _deque;
 
     /**
      * Constructor for your Graph, where among other things, you will most
@@ -60,6 +61,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         _directed = directed;
         _vertices = new HashSet<>();
         _edges = new HashSet<>();
+        _deque = new NodeDeque<>();
 
         // TODO: fill in the rest here!
     }
@@ -122,7 +124,13 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         GraphVertex<V> vertex = new GraphVertex<>(vertElement);
         if (this.getNumVertices() <= MAX_VERTICES){
             _vertices.add(vertex);
-            vertex.setVertexNumber(rand);
+            if (_deque.isEmpty()){
+                vertex.setVertexNumber(rand);
+            }
+            else{
+                vertex.setVertexNumber(_deque.removeFirst());
+            }
+            _numVertices++;
         }
         return vertex;
     }
@@ -196,7 +204,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         else{
             _vertices.remove(vert);
             _deque.addFirst(vert.getVertexNumber());
-            _numVertices++;
+            _numVertices--;
             Iterator<CS16Edge<V>> incoming = this.incomingEdges(vert);
             while (incoming.hasNext()){
                 _edges.remove(incoming.next());
@@ -207,7 +215,6 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
             }
             return vert.element();
         }
-        return null;
     }
 
     /**
