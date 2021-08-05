@@ -48,11 +48,10 @@ public class MyPageRank<V> implements PageRank<V> {
 	 */
 	@Override
 	public Map<CS16Vertex<V>, Double> calcPageRank(Graph<V> g) {
-		MyDecorator<CS16Vertex<V>, Double> rank = new MyDecorator<>();
-		MyDecorator<CS16Vertex<V>,Double> prev = new MyDecorator<>();
-
 		_g = g;
 		_vertsToRanks = new HashMap<>();
+		MyDecorator<CS16Vertex<V>, Double> rank = new MyDecorator<>();
+		MyDecorator<CS16Vertex<V>,Double> prev = new MyDecorator<>();
 
 		Iterator<CS16Vertex<V>> vIterator = g.vertices();
 
@@ -83,17 +82,15 @@ public class MyPageRank<V> implements PageRank<V> {
 					double prevD = prev.getDecoration(vertex);
 
 					rank.setDecoration(v3, rankD + (prevD / g.numOutgoingEdges(vertex)));
-
 				}
-
+				i++;
 			}
-			i++;
 		}
 
-	Iterator<CS16Vertex<V>> vIterator4 = _g.vertices();
+	Iterator<CS16Vertex<V>> vIterator4 = g.vertices();
 	while(vIterator4.hasNext()){
 		CS16Vertex<V> v3 = vIterator4.next();
-		_vertsToRanks.put(v3, rank.getDecoration(vIterator4.next()));
+		_vertsToRanks.put(v3, rank.getDecoration(v3));
 	}
 		return _vertsToRanks;
 	}

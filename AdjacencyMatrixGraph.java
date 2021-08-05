@@ -62,6 +62,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         _vertices = new HashSet<>();
         _edges = new HashSet<>();
         _deque = new NodeDeque<>();
+        _numVertices = 0;
 
         // TODO: fill in the rest here!
     }
@@ -533,6 +534,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         _adjMatrix = this.makeEmptyEdgeArray();
         _vertices.clear();
         _edges.clear();
+        _numVertices = 0;
     }
 
     /**
