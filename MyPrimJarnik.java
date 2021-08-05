@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import net.datastructures.Entry;
+import net.datastructures.Vertex;
 import support.graph.CS16AdaptableHeapPriorityQueue;
 import support.graph.CS16Edge;
 import support.graph.CS16GraphVisualizer;
@@ -34,7 +35,7 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
      * 
      * This algorithm must run in O((|E| + |V|)log(|V|)) time
      * @param g Your graph
-     * @param v Only used if you implement the optional animation.
+     * @param visualizer Only used if you implement the optional animation.
      * @return returns a data structure that contains the edges of your MSF that implements java.util.Collection
      */
     @Override
@@ -44,7 +45,7 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
 
         MyDecorator<CS16Vertex<V>,Integer> dist = new MyDecorator<>();
         MyDecorator<CS16Vertex<V>,CS16Vertex<V>> prev = new MyDecorator<>();
-        MyDecorator<CS16Vertex<V>,Entry> entry = new MyDecorator<>();
+        MyDecorator<CS16Vertex<V>,Entry<Integer, CS16Vertex<V>>> entry = new MyDecorator<>();
 
         Iterator<CS16Vertex<V>> vIterator = g.vertices();
 
@@ -54,7 +55,6 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
             prev.setDecoration(next, null);
             Entry<Integer, CS16Vertex<V>> myEntry = myHeap.insert(0, next);
             entry.setDecoration(next, myEntry);
-            myHeap.replaceKey(entry.getDecoration(next), Integer.MAX_VALUE);
         }
 
         while(!myHeap.isEmpty()){

@@ -120,17 +120,17 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
      */
     @Override
     public CS16Vertex<V> insertVertex(V vertElement) {
-        int rand = (int) (Math.random() * MAX_VERTICES);
+        //int rand = (int) (Math.random() * MAX_VERTICES); // do I use max?
         GraphVertex<V> vertex = new GraphVertex<>(vertElement);
         if (this.getNumVertices() <= MAX_VERTICES){
             _vertices.add(vertex);
-            if (_deque.isEmpty()){
-                vertex.setVertexNumber(rand);
+            _numVertices++;
+            if (_deque.isEmpty()){ // if I use this nodedeque, random doesnt work, but neither does maxvert
+                vertex.setVertexNumber(_numVertices);
             }
             else{
                 vertex.setVertexNumber(_deque.removeFirst());
             }
-            _numVertices++;
         }
         return vertex;
     }
@@ -207,11 +207,11 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
             _numVertices--;
             Iterator<CS16Edge<V>> incoming = this.incomingEdges(vert);
             while (incoming.hasNext()){
-                _edges.remove(incoming.next());
+                this.removeEdge(incoming.next());
             }
             Iterator<CS16Edge<V>> outgoing = this.outgoingEdges(vert);
             while(outgoing.hasNext()){
-                _edges.remove(outgoing.next());
+                this.removeEdge(outgoing.next());
             }
             return vert.element();
         }
