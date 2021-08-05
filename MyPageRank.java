@@ -48,8 +48,54 @@ public class MyPageRank<V> implements PageRank<V> {
 	 */
 	@Override
 	public Map<CS16Vertex<V>, Double> calcPageRank(Graph<V> g) {
-		// TODO: initialize private instance variables
-		return null;
+		MyDecorator<CS16Vertex<V>, Double> rank = new MyDecorator<>();
+		MyDecorator<CS16Vertex<V>,Double> prev = new MyDecorator<>();
+
+		_g = g;
+		_vertsToRanks = new HashMap<>();
+
+		Iterator<CS16Vertex<V>> vIterator = g.vertices();
+
+		while (vIterator.hasNext()) {
+			CS16Vertex<V> v = vIterator.next();
+			rank.setDecoration(v, (1.0 / g.getNumVertices()));
+		}
+
+		for (int i = 0; i <= _maxIterations; i++) {
+			Iterator<CS16Vertex<V>> vIterator2 = g.vertices();
+
+			while (vIterator2.hasNext()) {
+				CS16Vertex<V> v2 = vIterator2.next();
+				prev.setDecoration(v2, rank.getDecoration(v2));
+			}
+
+			Iterator<CS16Vertex<V>> vIterator3 = g.vertices();
+			while(vIterator3.hasNext()) {
+				CS16Vertex<V> v3 = vIterator3.next();
+				rank.setDecoration(v3, 0.0);
+				Iterator<CS16Edge<V>> incoming = g.incomingEdges(v3);
+
+				while (incoming.hasNext()) {
+					CS16Edge<V> edge = incoming.next();
+					CS16Vertex<V> vertex = g.opposite(v3, edge);
+
+					double rankD = rank.getDecoration(v3);
+					double prevD = prev.getDecoration(vertex);
+
+					rank.setDecoration(v3, rankD + (prevD / g.numOutgoingEdges(vertex)));
+
+				}
+
+			}
+			i++;
+		}
+
+	Iterator<CS16Vertex<V>> vIterator4 = _g.vertices();
+	while(vIterator4.hasNext()){
+		CS16Vertex<V> v3 = vIterator4.next();
+		_vertsToRanks.put(v3, rank.getDecoration(vIterator4.next()));
+	}
+		return _vertsToRanks;
 	}
 
 	/**
