@@ -82,6 +82,8 @@ public class MyPageRank<V> implements PageRank<V> {
 					double prevD = prev.getDecoration(vertex);
 
 					rank.setDecoration(v3, rankD + (prevD / g.numOutgoingEdges(vertex)));
+
+
 				}
 				i++;
 			}
@@ -101,10 +103,29 @@ public class MyPageRank<V> implements PageRank<V> {
 	 * the lecture and help slides!
 	 */
 	private void handleSinks() {
+		Iterator<CS16Vertex<V>> vIterator = _g.vertices();
+		while (vIterator.hasNext()){
+			CS16Vertex<V> vertex = vIterator.next();
+			if (_g.numOutgoingEdges(vertex) == 0){
+				Iterator<CS16Vertex<V>> vIterator2 = _g.vertices();
+				while (vIterator2.hasNext()){
+					CS16Vertex<V> vertex2 = vIterator2.next();
+					_g.insertEdge(vertex, vertex2, null);
+				}
+			}
+		}
+
 
 	}
 
-	// Feel free to add helper methods below.
+	private void calculateDamping(){
+
+	}
+
+	private void calculateError(){
+
+	}
+
 
 
 }

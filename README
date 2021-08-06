@@ -1,0 +1,16 @@
+graph README
+
+Handin: This is my final handin
+
+Design Choices: I made a major design choice in the PageRank part of my graph. I liked working with decorators a lot in
+my Prim-Jarnik algorithm, so I decided to continue to use it in my PageRank because using decorators makes more sense to
+me while working with a graph.
+In my Prim Jarnik, I was heavily inspired by the lecture psuedocode and created three decorators to use. One decorator,
+dist, keeps track of the cost of all of my verticies. The second decorator, prev, keeps track of the changes that are
+made in the algorithem, because when we update one vertex, all of the previous ones are affected. The third decorator,
+entry, helps keep track of the entries in the PriorityQueue that are associated with each vertex.
+
+The PJ decorator method worked so well for me that I decided to adapt the PageRank algorithm to use decorators instead
+of an Arraylist. To do that, I created two decorators. The first one, rank, keeps track of the current
+
+Conceptual Question:

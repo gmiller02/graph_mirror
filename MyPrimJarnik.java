@@ -40,38 +40,39 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
      */
     @Override
     public Collection<CS16Edge<V>> genMinSpanForest(Graph<V> g, CS16GraphVisualizer<V> visualizer) {
+
+        MyDecorator<CS16Vertex<V>,Integer> dist = new MyDecorator<>(); // decorator for distance, or cost
+        MyDecorator<CS16Vertex<V>,CS16Vertex<V>> prev = new MyDecorator<>(); // for previous verticies
+        MyDecorator<CS16Vertex<V>,Entry<Integer, CS16Vertex<V>>> entry = new MyDecorator<>(); // entry for each vertex
+
         CS16AdaptableHeapPriorityQueue<Integer, CS16Vertex<V>> myHeap = new CS16AdaptableHeapPriorityQueue<>();
-        Collection<CS16Edge<V>> MST = new Vector<>();
+        Collection<CS16Edge<V>> MST = new Vector<>(); // to store the edges
 
-        MyDecorator<CS16Vertex<V>,Integer> dist = new MyDecorator<>();
-        MyDecorator<CS16Vertex<V>,CS16Vertex<V>> prev = new MyDecorator<>();
-        MyDecorator<CS16Vertex<V>,Entry<Integer, CS16Vertex<V>>> entry = new MyDecorator<>();
+        Iterator<CS16Vertex<V>> vIterator = g.vertices(); // iterator for the graph's verticies
 
-        Iterator<CS16Vertex<V>> vIterator = g.vertices();
-
-        while(vIterator.hasNext()){
+        while(vIterator.hasNext()){ // for every vertex in the graph
             CS16Vertex<V> next = vIterator.next();
-            dist.setDecoration(next, Integer.MAX_VALUE);
-            prev.setDecoration(next, null);
+            dist.setDecoration(next, Integer.MAX_VALUE); // decorate every vertex with a distance
+            prev.setDecoration(next, null); //
             Entry<Integer, CS16Vertex<V>> myEntry = myHeap.insert(0, next);
             entry.setDecoration(next, myEntry);
         }
 
-        while(!myHeap.isEmpty()){
+        while(!myHeap.isEmpty()){ // while PQ is not empty
             CS16Vertex<V> minVertex = myHeap.removeMin().getValue();
             entry.removeDecoration((minVertex));
             if(prev.getDecoration(minVertex) != null){
                 MST.add(g.connectingEdge(minVertex,prev.getDecoration(minVertex)));
             }
-            Iterator<CS16Edge<V>> eIterator = g.incomingEdges(minVertex);
-            while(eIterator.hasNext()){
+            Iterator<CS16Edge<V>> eIterator = g.incomingEdges(minVertex); // make iterator for edges
+            while(eIterator.hasNext()){ // for all incident edges in the graph
                 CS16Edge<V> myEdge = eIterator.next();
                 CS16Vertex<V> myVertex = g.opposite(minVertex, myEdge);
                 if(dist.getDecoration(myVertex) > myEdge.element()){
                     dist.setDecoration(myVertex, myEdge.element());
                     prev.setDecoration(myVertex, minVertex);
-                    if (entry.getDecoration(myVertex) != null){
-                        myHeap.replaceKey(entry.getDecoration(myVertex), dist.getDecoration(myVertex));
+                    if (entry.getDecoration(myVertex) != null){ // if the entry at the vertex is not decorated
+                        myHeap.replaceKey(entry.getDecoration(myVertex), dist.getDecoration(myVertex)); // replace that value with the distance value at that vertex
                     }
                 }
             }
