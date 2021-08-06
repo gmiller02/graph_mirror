@@ -376,7 +376,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
             throw new DirectionException("graph is undirected");
         }
         int size = 0;
-        Iterator<CS16Edge<V>> edges = this.incomingEdges(vert);
+        Iterator<CS16Edge<V>> edges = this.outgoingEdges(vert);
         while(edges.hasNext()){
             edges.next();
             size++;

@@ -101,7 +101,7 @@ public class MyPageRank<V> implements PageRank<V> {
 	 * the lecture and help slides!
 	 */
 	private void handleSinks() {
-		// TODO: Fill this in
+
 	}
 
 	// Feel free to add helper methods below.

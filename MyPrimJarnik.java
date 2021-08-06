@@ -59,6 +59,7 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
 
         while(!myHeap.isEmpty()){
             CS16Vertex<V> minVertex = myHeap.removeMin().getValue();
+            entry.removeDecoration((minVertex));
             if(prev.getDecoration(minVertex) != null){
                 MST.add(g.connectingEdge(minVertex,prev.getDecoration(minVertex)));
             }
@@ -69,7 +70,9 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
                 if(dist.getDecoration(myVertex) > myEdge.element()){
                     dist.setDecoration(myVertex, myEdge.element());
                     prev.setDecoration(myVertex, minVertex);
-                    myHeap.replaceValue(entry.getDecoration(myVertex), myVertex);
+                    if (entry.getDecoration(myVertex) != null){
+                        myHeap.replaceKey(entry.getDecoration(myVertex), dist.getDecoration(myVertex));
+                    }
                 }
             }
 
