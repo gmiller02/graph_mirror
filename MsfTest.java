@@ -76,6 +76,59 @@ public class MsfTest {
         return algoNames;
     }
 
+    @Test // larger heap to test this on
+    public void otherTest(){
+        CS16Vertex<String> A = _graph.insertVertex("A");
+        CS16Vertex<String> B = _graph.insertVertex("B");
+        CS16Vertex<String> C = _graph.insertVertex("C");
+        CS16Vertex<String> D = _graph.insertVertex("D");
+        CS16Vertex<String> E = _graph.insertVertex("E");
+        CS16Vertex<String> F = _graph.insertVertex("F");
+
+
+        CS16Edge<String> ab = _graph.insertEdge(A, B, 1);
+        CS16Edge<String> bc = _graph.insertEdge(B, C, 1);
+        CS16Edge<String> ca = _graph.insertEdge(A, C, 10);
+        CS16Edge<String> cd = _graph.insertEdge(C, D, 8);
+        CS16Edge<String> de = _graph.insertEdge(D, E, 2);
+        CS16Edge<String> ef = _graph.insertEdge(E, F, 4);
+        CS16Edge<String> fa = _graph.insertEdge(F, A, 8);
+        Collection<CS16Edge<String>> MSF = _msf.genMinSpanForest(_graph, null);
+
+        assertThat(MSF.size(), is(3));
+        assertThat(MSF.contains(ab), is(true));
+        assertThat(MSF.contains(bc), is(true));
+        assertThat(MSF.contains(ca), is(false));
+        assertThat(MSF.contains(cd), is(false));
+        assertThat(MSF.contains(de), is(true));
+        assertThat(MSF.contains(ef), is(false));
+        assertThat(MSF.contains(fa), is(false));
+    }
+
+    @Test
+    public void disconnectedTest() { // tests a graph that is disconnected
+        CS16Vertex<String> A = _graph.insertVertex("A");
+        CS16Vertex<String> B = _graph.insertVertex("B");
+        CS16Vertex<String> C = _graph.insertVertex("C");
+
+        CS16Vertex<String> D = _graph.insertVertex("D");
+        CS16Vertex<String> E = _graph.insertVertex("E");
+
+
+        CS16Edge<String> ab = _graph.insertEdge(A, B, 1);
+        CS16Edge<String> bc = _graph.insertEdge(B, C, 1);
+        CS16Edge<String> ca = _graph.insertEdge(A, C, 10);
+
+        CS16Edge<String> de = _graph.insertEdge(D, E, 10);
+        Collection<CS16Edge<String>> MSF = _msf.genMinSpanForest(_graph, null);
+
+        assertThat(MSF.size(), is(3));
+        assertThat(MSF.contains(ab), is(true));
+        assertThat(MSF.contains(bc), is(true));
+        assertThat(MSF.contains(ca), is(false));
+        assertThat(MSF.contains(de), is(true));
+    }
+
 
     /*
      * ####################################################

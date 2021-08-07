@@ -113,6 +113,76 @@ public class MyPageRankTest {
 
 	}
 
+	@Test
+	public void pageTest(){ // simple test that goes through pagerank
+		Graph<String> adjMatrix = new AdjacencyMatrixGraph<String>(true);
+		CS16Vertex<String> a = adjMatrix.insertVertex("A");
+		CS16Vertex<String> b = adjMatrix.insertVertex("B");
+		CS16Vertex<String> c = adjMatrix.insertVertex("C");
+		CS16Vertex<String> d = adjMatrix.insertVertex("D");
+		CS16Edge<String> e0 = adjMatrix.insertEdge(a,b,null);
+		CS16Edge<String> e1 = adjMatrix.insertEdge(b,c,null);
+		CS16Edge<String> e2 = adjMatrix.insertEdge(c,d,null);
+
+		MyPageRank<String> pr = new MyPageRank<String>();
+
+		Map<CS16Vertex<String>, Double> output = pr.calcPageRank(adjMatrix);
+		assertEquals(output.size(), 4);
+		double total = 0;
+		for (double rank: output.values()) {
+			total += rank;
+		}
+
+		assertTrue(output.get(a) < output.get(d));
+
+	}
+
+	@Test
+	public void incomingTest(){ // tests for when one vertex has multiple incoming
+		Graph<String> adjMatrix = new AdjacencyMatrixGraph<String>(true);
+		CS16Vertex<String> a = adjMatrix.insertVertex("A");
+		CS16Vertex<String> b = adjMatrix.insertVertex("B");
+		CS16Vertex<String> c = adjMatrix.insertVertex("C");
+		CS16Edge<String> e0 = adjMatrix.insertEdge(a,b,null);
+		CS16Edge<String> e1 = adjMatrix.insertEdge(c,b,null);
+
+		MyPageRank<String> pr = new MyPageRank<String>();
+
+		Map<CS16Vertex<String>, Double> output = pr.calcPageRank(adjMatrix);
+
+		assertEquals(output.size(), 3);
+		double total = 0;
+		for (double rank: output.values()) {
+			total += rank;
+		}
+
+		assertTrue(output.get(a) < output.get(b));
+		assertTrue(output.get(c) < output.get(b));
+	}
+
+	@Test
+	public void outgoingTest(){ // test for when one vertex has multiple outgoing
+		Graph<String> adjMatrix = new AdjacencyMatrixGraph<String>(true);
+		CS16Vertex<String> a = adjMatrix.insertVertex("A");
+		CS16Vertex<String> b = adjMatrix.insertVertex("B");
+		CS16Vertex<String> c = adjMatrix.insertVertex("C");
+		CS16Edge<String> e0 = adjMatrix.insertEdge(a,b,null);
+		CS16Edge<String> e1 = adjMatrix.insertEdge(a,c,null);
+
+		MyPageRank<String> pr = new MyPageRank<String>();
+
+		Map<CS16Vertex<String>, Double> output = pr.calcPageRank(adjMatrix);
+
+		assertEquals(output.size(), 3);
+		double total = 0;
+		for (double rank: output.values()) {
+			total += rank;
+		}
+
+		assertTrue(output.get(a) < output.get(b));
+		assertTrue(output.get(a) < output.get(c));
+	}
+
 
 	/**
 	  * TODO: Add your own tests here. Instead of checking for specific rank values,

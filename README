@@ -16,11 +16,15 @@ vertex in the directed graph. The second decorator, prev, (just as in PrimJarnik
 made when the algorithm updates the rank. Additionally, like in PrimJarnik, I created several iterators that went through
 all of the vertices in the graph so that I could decorate them with rankings.
 
-Tests: I made sure to test all of my exceptions and most of my methods for my matrix.
+Tests: I made sure to test all of my exceptions and most of my methods for my matrix. For my MSF, I tested to see if my
+algorithm could handle a much larger graph and a graph that was disconnected.
 
 Known bugs: My math is slightly off in my Pagerank, which results in my algorithm not passing the second test. The
-numbers I get are very close, but not exactly like the demo. I went though my math numerous times but could not find
-where I went wrong.
+numbers I get are very close, but not exactly like the demo when I run it. I went though my math numerous times but
+could not find where I went wrong on my calculations.
+
+Because of this error, I know that the tests I wrote for MyPageRank will not pass. However, I tried to re-create them
+on the demo and asserted what I observed to be true.
 
 Conceptual Question: In order to solve this equation, I think that we could create an index that would assign all pages
 a value in between zero and one. This way, no vertex would be assaigned zero and have to be removed from the graph. The
