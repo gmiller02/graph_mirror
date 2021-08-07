@@ -16,7 +16,11 @@ vertex in the directed graph. The second decorator, prev, (just as in PrimJarnik
 made when the algorithm updates the rank. Additionally, like in PrimJarnik, I created several iterators that went through
 all of the vertices in the graph so that I could decorate them with rankings.
 
-Tests:
+Tests: I made sure to test all of my exceptiions and all of my methods for my matrix.
+
+Known bugs: My math is slightly off in my Pagerank, which results in my algorithm not passing the second test. The
+numbers I get are very close, but not exactly like the demo. I went though my math numerous times but could not find
+where I went wrong.
 
 Conceptual Question: In order to solve this equation, I think that we could create an index that would assign all pages
 a value in between zero and one. This way, no vertex would be assaigned zero and have to be removed from the graph. The

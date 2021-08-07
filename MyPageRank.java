@@ -111,18 +111,15 @@ public class MyPageRank<V> implements PageRank<V> {
 	 * edges). There are multiple ways you can implement this, check
 	 * the lecture and help slides!
 	 *
-	 * This method uses two iterators to loop through all of the verticies of the graph and see if a vertex has no
-	 * outgoing edges. In this method, if a vertex has no outgoing edges, it is connected to another vertex. I continued
-	 * using iterators because I was acustomed to using them in PJ and PR.
+	 * This method loops through the vertices arraylist and inserts an edge when the vertex in question has no outgoing
+	 * edges.
 	 */
 	private void handleSinks() {
-		Iterator<CS16Vertex<V>> vIterator = _g.vertices(); // create iterator for the graph's verticies
 		for (int i = 0; i < _vertices.size(); i++) { // for every vertex in the graph
-			CS16Vertex<V> vertex = vIterator.next();
+			CS16Vertex<V> vertex = _vertices.get(i);
 			if (_g.numOutgoingEdges(vertex) == 0){ // if a vertex has no outgoing edges
-				Iterator<CS16Vertex<V>> vIterator2 = _g.vertices(); //create second iterator
 				for (int j = 0; j < _vertices.size(); j++){
-					CS16Vertex<V> vertex2 = vIterator2.next();
+					CS16Vertex<V> vertex2 = _vertices.get(j);
 					_g.insertEdge(vertex, vertex2, null); //insert an edge between verticies
 				}
 			}
