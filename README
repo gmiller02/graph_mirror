@@ -16,7 +16,7 @@ vertex in the directed graph. The second decorator, prev, (just as in PrimJarnik
 made when the algorithm updates the rank. Additionally, like in PrimJarnik, I created several iterators that went through
 all of the vertices in the graph so that I could decorate them with rankings.
 
-Tests: I made sure to test all of my exceptiions and all of my methods for my matrix.
+Tests: I made sure to test all of my exceptions and most of my methods for my matrix.
 
 Known bugs: My math is slightly off in my Pagerank, which results in my algorithm not passing the second test. The
 numbers I get are very close, but not exactly like the demo. I went though my math numerous times but could not find

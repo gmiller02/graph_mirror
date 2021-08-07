@@ -398,6 +398,141 @@ public class GraphTest {
 
     }
 
+    @Test(timeout = 10000)
+    public void numOutgoingTest(){ // tests numoutgoing method
+        CS16Vertex<String> A = _dirGraph.insertVertex("A");
+        CS16Vertex<String> B = _dirGraph.insertVertex("B");
+        CS16Vertex<String> C = _dirGraph.insertVertex("C");
+
+
+        CS16Edge<String> ab = _dirGraph.insertEdge(A, B, 1);
+        CS16Edge<String> bc = _dirGraph.insertEdge(B, C, 2);
+
+        _dirGraph.numOutgoingEdges(B);
+
+        List<CS16Vertex<String>> actualVertices = new ArrayList<CS16Vertex<String>>();
+        Iterator<CS16Vertex<String>> it = _dirGraph.vertices();
+        while (it.hasNext()) {
+            actualVertices.add(it.next());
+        }
+
+        List<CS16Edge<String>> actualEdges = new ArrayList<CS16Edge<String>>();
+        Iterator<CS16Edge<String>> it2 = _dirGraph.edges();
+        while (it2.hasNext()) {
+            actualEdges.add(it2.next());
+        }
+
+        assertThat(_dirGraph.numOutgoingEdges(B), is(2));
+    }
+
+    @Test(timeout = 10000)
+    public void oppositeTestD(){ // tests opposite method
+        CS16Vertex<String> A = _dirGraph.insertVertex("A");
+        CS16Vertex<String> B = _dirGraph.insertVertex("B");
+        CS16Vertex<String> C = _dirGraph.insertVertex("C");
+
+
+        CS16Edge<String> ab = _dirGraph.insertEdge(A, B, 1);
+        CS16Edge<String> bc = _dirGraph.insertEdge(B, C, 2);
+
+        _dirGraph.opposite(A, ab);
+
+        List<CS16Vertex<String>> actualVertices = new ArrayList<CS16Vertex<String>>();
+        Iterator<CS16Vertex<String>> it = _dirGraph.vertices();
+        while (it.hasNext()) {
+            actualVertices.add(it.next());
+        }
+
+        List<CS16Edge<String>> actualEdges = new ArrayList<CS16Edge<String>>();
+        Iterator<CS16Edge<String>> it2 = _dirGraph.edges();
+        while (it2.hasNext()) {
+            actualEdges.add(it2.next());
+        }
+        assertThat(_dirGraph.opposite(A, ab), is(B));
+    }
+
+    @Test(timeout = 10000)
+    public void oppositeTestUD(){ // same test but undirected
+        CS16Vertex<String> A = _graph.insertVertex("A");
+        CS16Vertex<String> B = _graph.insertVertex("B");
+        CS16Vertex<String> C = _graph.insertVertex("C");
+
+
+        CS16Edge<String> ab = _graph.insertEdge(A, B, 1);
+        CS16Edge<String> bc = _graph.insertEdge(B, C, 2);
+
+        _graph.opposite(A, ab);
+
+        List<CS16Vertex<String>> actualVertices = new ArrayList<CS16Vertex<String>>();
+        Iterator<CS16Vertex<String>> it = _graph.vertices();
+        while (it.hasNext()) {
+            actualVertices.add(it.next());
+        }
+
+        List<CS16Edge<String>> actualEdges = new ArrayList<CS16Edge<String>>();
+        Iterator<CS16Edge<String>> it2 = _graph.edges();
+        while (it2.hasNext()) {
+            actualEdges.add(it2.next());
+        }
+        assertThat(_graph.opposite(A, ab), is(B));
+    }
+
+    @Test(timeout = 10000)
+    public void adjacentTestUD(){ // tests undirected areAdjacent
+        CS16Vertex<String> A = _graph.insertVertex("A");
+        CS16Vertex<String> B = _graph.insertVertex("B");
+        CS16Vertex<String> C = _graph.insertVertex("C");
+
+
+        CS16Edge<String> ab = _graph.insertEdge(A, B, 1);
+        CS16Edge<String> bc = _graph.insertEdge(B, C, 2);
+
+        _graph.areAdjacent(A, B);
+        _graph.areAdjacent(B, A);
+
+        List<CS16Vertex<String>> actualVertices = new ArrayList<CS16Vertex<String>>();
+        Iterator<CS16Vertex<String>> it = _graph.vertices();
+        while (it.hasNext()) {
+            actualVertices.add(it.next());
+        }
+
+        List<CS16Edge<String>> actualEdges = new ArrayList<CS16Edge<String>>();
+        Iterator<CS16Edge<String>> it2 = _graph.edges();
+        while (it2.hasNext()) {
+            actualEdges.add(it2.next());
+        }
+
+        assertTrue(_graph.areAdjacent(A, B));
+        assertTrue(_graph.areAdjacent(B, A));
+    }
+
+    @Test(timeout = 10000)
+    public void adjacentTestD(){ // tests directed areAdjacent
+        CS16Vertex<String> A = _dirGraph.insertVertex("A");
+        CS16Vertex<String> B = _dirGraph.insertVertex("B");
+        CS16Vertex<String> C = _dirGraph.insertVertex("C");
+
+
+        CS16Edge<String> ab = _dirGraph.insertEdge(A, B, 1);
+        CS16Edge<String> bc = _dirGraph.insertEdge(B, C, 2);
+
+        _dirGraph.areAdjacent(A, B);
+
+        List<CS16Vertex<String>> actualVertices = new ArrayList<CS16Vertex<String>>();
+        Iterator<CS16Vertex<String>> it = _dirGraph.vertices();
+        while (it.hasNext()) {
+            actualVertices.add(it.next());
+        }
+
+        List<CS16Edge<String>> actualEdges = new ArrayList<CS16Edge<String>>();
+        Iterator<CS16Edge<String>> it2 = _dirGraph.edges();
+        while (it2.hasNext()) {
+            actualEdges.add(it2.next());
+        }
+
+        assertTrue(_dirGraph.areAdjacent(A, B));
+    }
+
 
 
 
