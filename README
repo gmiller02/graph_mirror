@@ -17,11 +17,13 @@ made when the algorithm updates the rank. Additionally, like in PrimJarnik, I cr
 all of the vertices in the graph so that I could decorate them with rankings.
 
 Tests: I made sure to test all of my exceptions and most of my methods for my matrix. For my MSF, I tested to see if my
-algorithm could handle a much larger graph and a graph that was disconnected.
+algorithm could handle a much larger graph and a graph that was disconnected. For a better explanation of my PageRank
+tests, see below, because they are impacted by my error.
 
-Known bugs: My math is slightly off in my Pagerank, which results in my algorithm not passing the second test. The
-numbers I get are very close, but not exactly like the demo when I run it. I went though my math numerous times but
-could not find where I went wrong on my calculations.
+Known bugs: My math is slightly off in my PageRank, which results in my algorithm not passing the second test. The
+numbers I get are very close to the expected, but not exactly like the demo when I run it.
+I went though my math numerous times but could not find where I went wrong on my calculations: I tried to base them as
+much as possible on the lecture slides.
 
 Because of this error, I know that the tests I wrote for MyPageRank will not pass. However, I tried to re-create them
 on the demo and asserted what I observed to be true.
