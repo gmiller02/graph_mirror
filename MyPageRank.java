@@ -50,22 +50,26 @@ public class MyPageRank<V> implements PageRank<V> {
 	public Map<CS16Vertex<V>, Double> calcPageRank(Graph<V> g) {
 		_g = g;
 		_vertsToRanks = new HashMap<>();
-		MyDecorator<CS16Vertex<V>, Double> rank = new MyDecorator<>();
-		MyDecorator<CS16Vertex<V>,Double> prev = new MyDecorator<>();
+		_vertices = new ArrayList<>();
+
+		MyDecorator<CS16Vertex<V>, Double> rank = new MyDecorator<>(); // decorator that decorates all verticies with their rank
+		MyDecorator<CS16Vertex<V>,Double> prev = new MyDecorator<>(); // keeps track of previous rankings
 
 		Iterator<CS16Vertex<V>> vIterator = g.vertices();
+		this.handleSinks(); // call handleSinks
 
-		while (vIterator.hasNext()) {
+		while (vIterator.hasNext()) { // for all verticies in the graph
 			CS16Vertex<V> v = vIterator.next();
-			rank.setDecoration(v, (1.0 / g.getNumVertices()));
+			_vertices.add(v); // add all verticies to graph
+			rank.setDecoration(v, (1.0 / g.getNumVertices())); // decorate these verticies
 		}
 
-		for (int i = 0; i <= _maxIterations; i++) {
+		for (int i = 0; i <= _maxIterations; i++) { // loop through maxIterations
 			Iterator<CS16Vertex<V>> vIterator2 = g.vertices();
 
-			while (vIterator2.hasNext()) {
+			while (vIterator2.hasNext()) { // loop through verticies again
 				CS16Vertex<V> v2 = vIterator2.next();
-				prev.setDecoration(v2, rank.getDecoration(v2));
+				prev.setDecoration(v2, rank.getDecoration(v2)); // decorate previous verticies
 			}
 
 			Iterator<CS16Vertex<V>> vIterator3 = g.vertices();
@@ -73,26 +77,31 @@ public class MyPageRank<V> implements PageRank<V> {
 				CS16Vertex<V> v3 = vIterator3.next();
 				rank.setDecoration(v3, 0.0);
 				Iterator<CS16Edge<V>> incoming = g.incomingEdges(v3);
+				double rankNum = 0;
+				double finalRank = 0;
 
-				while (incoming.hasNext()) {
+				while (incoming.hasNext()) { // loop through all incoming edges
 					CS16Edge<V> edge = incoming.next();
-					CS16Vertex<V> vertex = g.opposite(v3, edge);
+					CS16Vertex<V> vertex = g.opposite(v3, edge); // get opposite vertex
 
-					double rankD = rank.getDecoration(v3);
-					double prevD = prev.getDecoration(vertex);
+					double rankD = rank.getDecoration(v3); // get the value of the vertex
+					double prevD = prev.getDecoration(vertex); // get the value of the opposite vertex
 
-					rank.setDecoration(v3, rankD + (prevD / g.numOutgoingEdges(vertex)));
+					double damp = (1 - _dampingFactor) / _g.getNumVertices();
+					double help = rankD + (prevD / g.numOutgoingEdges(vertex));
 
-
+					rankNum += _dampingFactor * help;
+					finalRank = damp + rankNum;
 				}
+				rank.setDecoration(v3, finalRank);
 				i++;
 			}
 		}
 
 	Iterator<CS16Vertex<V>> vIterator4 = g.vertices();
-	while(vIterator4.hasNext()){
-		CS16Vertex<V> v3 = vIterator4.next();
-		_vertsToRanks.put(v3, rank.getDecoration(v3));
+	while(vIterator4.hasNext()){ // for all verticies in the graph
+		CS16Vertex<V> v3 = vIterator4.next(); //create new vertex
+		_vertsToRanks.put(v3, rank.getDecoration(v3)); //store pagerank at that vertex
 	}
 		return _vertsToRanks;
 	}
@@ -101,31 +110,24 @@ public class MyPageRank<V> implements PageRank<V> {
 	 * Method used to account for sink pages (those with no outgoing
 	 * edges). There are multiple ways you can implement this, check
 	 * the lecture and help slides!
+	 *
+	 * This method uses two iterators to loop through all of the verticies of the graph and see if a vertex has no
+	 * outgoing edges. In this method, if a vertex has no outgoing edges, it is connected to another vertex. I continued
+	 * using iterators because I was acustomed to using them in PJ and PR.
 	 */
 	private void handleSinks() {
-		Iterator<CS16Vertex<V>> vIterator = _g.vertices();
-		while (vIterator.hasNext()){
+		Iterator<CS16Vertex<V>> vIterator = _g.vertices(); // create iterator for the graph's verticies
+		for (int i = 0; i < _vertices.size(); i++) { // for every vertex in the graph
 			CS16Vertex<V> vertex = vIterator.next();
-			if (_g.numOutgoingEdges(vertex) == 0){
-				Iterator<CS16Vertex<V>> vIterator2 = _g.vertices();
-				while (vIterator2.hasNext()){
+			if (_g.numOutgoingEdges(vertex) == 0){ // if a vertex has no outgoing edges
+				Iterator<CS16Vertex<V>> vIterator2 = _g.vertices(); //create second iterator
+				for (int j = 0; j < _vertices.size(); j++){
 					CS16Vertex<V> vertex2 = vIterator2.next();
-					_g.insertEdge(vertex, vertex2, null);
+					_g.insertEdge(vertex, vertex2, null); //insert an edge between verticies
 				}
 			}
 		}
 
-
 	}
-
-	private void calculateDamping(){
-
-	}
-
-	private void calculateError(){
-
-	}
-
-
 
 }

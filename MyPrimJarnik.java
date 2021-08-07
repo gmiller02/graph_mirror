@@ -60,17 +60,17 @@ public class MyPrimJarnik<V> implements MinSpanForest<V> {
 
         while(!myHeap.isEmpty()){ // while PQ is not empty
             CS16Vertex<V> minVertex = myHeap.removeMin().getValue();
-            entry.removeDecoration((minVertex));
-            if(prev.getDecoration(minVertex) != null){
-                MST.add(g.connectingEdge(minVertex,prev.getDecoration(minVertex)));
+            entry.removeDecoration((minVertex)); // remove minimum vertex value from the entries in the PQ
+            if(prev.getDecoration(minVertex) != null){ // if there is a previous vertex
+                MST.add(g.connectingEdge(minVertex,prev.getDecoration(minVertex))); // add that vertex to the MST
             }
             Iterator<CS16Edge<V>> eIterator = g.incomingEdges(minVertex); // make iterator for edges
             while(eIterator.hasNext()){ // for all incident edges in the graph
-                CS16Edge<V> myEdge = eIterator.next();
-                CS16Vertex<V> myVertex = g.opposite(minVertex, myEdge);
-                if(dist.getDecoration(myVertex) > myEdge.element()){
-                    dist.setDecoration(myVertex, myEdge.element());
-                    prev.setDecoration(myVertex, minVertex);
+                CS16Edge<V> myEdge = eIterator.next(); // get the next edge
+                CS16Vertex<V> myVertex = g.opposite(minVertex, myEdge); // instantiate opposite vertex
+                if(dist.getDecoration(myVertex) > myEdge.element()){ // if the cost at the opposite vertex is larger than the edge
+                    dist.setDecoration(myVertex, myEdge.element()); // set the cost value to the value of the edge
+                    prev.setDecoration(myVertex, minVertex); // update previous verticies
                     if (entry.getDecoration(myVertex) != null){ // if the entry at the vertex is not decorated
                         myHeap.replaceKey(entry.getDecoration(myVertex), dist.getDecoration(myVertex)); // replace that value with the distance value at that vertex
                     }

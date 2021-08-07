@@ -10,7 +10,15 @@ dist, keeps track of the cost of all of my verticies. The second decorator, prev
 made in the algorithem, because when we update one vertex, all of the previous ones are affected. The third decorator,
 entry, helps keep track of the entries in the PriorityQueue that are associated with each vertex.
 
-The PJ decorator method worked so well for me that I decided to adapt the PageRank algorithm to use decorators instead
-of an Arraylist. To do that, I created two decorators. The first one, rank, keeps track of the current
+The PJ decorator method worked so well for me that I decided to adapt the PageRank algorithm from lecture to use decorators instead
+of an Arraylist. To do that, I created two decorators. The first one, rank, keeps track of the current rank of each
+vertex in the directed graph. The second decorator, prev, (just as in PrimJarnik), keeps track of the changes that are
+made when the algorithm updates the rank. Additionally, like in PrimJarnik, I created several iterators that went through
+all of the vertices in the graph so that I could decorate them with rankings.
 
-Conceptual Question:
+Tests:
+
+Conceptual Question: In order to solve this equation, I think that we could create an index that would assign all pages
+a value in between zero and one. This way, no vertex would be assaigned zero and have to be removed from the graph. The
+verticies with the lowest decimal scores would be ranked lower and be less credible, and the verticies with higher
+decimal scores would be ranked higher and be more credible.
